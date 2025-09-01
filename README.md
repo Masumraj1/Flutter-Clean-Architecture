@@ -7,7 +7,7 @@ A new Flutter project.
 1. Use Flutter-Clean Architecture
 2. Use State Management -Bloc
 3. dependency injection - getit
-4. 
+4. equatable
 
 *Data
 *Domain
