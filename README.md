@@ -32,5 +32,6 @@ A new Flutter project.
 
 
 
+
 * loos coupling
 * tight coupling
