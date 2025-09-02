@@ -9,6 +9,28 @@ A new Flutter project.
 3. dependency injection - getit
 4. equatable
 
-*Data
-*Domain
-*Presentation
+* Data layer
+
+  * datasource's ===
+  * models       ===
+  * repositories === Repository Implementation (body implementation)
+
+* Domain layer
+
+  * entities     ===
+  * repositories === Abstract Repository (no body implementation)
+  * use cases    ===
+  
+
+* Presentation layer === ui+component
+     
+
+
+
+
+
+
+
+
+* loos coupling
+* tight coupling
