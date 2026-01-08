@@ -1,50 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controller/login_controller.dart';
+import 'package:flutter_clean_architect/features/login/presentaion/providers/login_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   LoginPage({super.key});
 
-  // Controller auto inject from binding
-  final LoginController controller = Get.find();
-
-
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(loginControllerProvider);
+    final controller = ref.read(loginControllerProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(controller: controller.emailController, decoration: const InputDecoration(labelText: 'Email')),
+            TextField(controller: emailController, decoration: const InputDecoration(labelText: 'Email')),
             const SizedBox(height: 12),
-            TextField(controller: controller.passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Password')),
+            TextField(controller: passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Password')),
             const SizedBox(height: 24),
-            Obx(() => ElevatedButton(
-              onPressed: controller.isLoading.value
+            ElevatedButton(
+              onPressed: state.isLoading
                   ? null
                   : () {
                 controller.login(
-                  email: controller.emailController.text,
-                  password: controller.passwordController.text,
+                  emailController.text,
+                  passwordController.text,
                 );
               },
-              child: controller.isLoading.value
+              child: state.isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
                   : const Text('Login'),
-            )),
+            ),
             const SizedBox(height: 20),
-            Obx(() {
-              if (controller.user.value != null) {
-                return Text('Welcome ${controller.user.value!.name}', style: const TextStyle(fontSize: 18));
-              } else if (controller.error.isNotEmpty) {
-                return Text(controller.error.value, style: const TextStyle(color: Colors.red));
-              } else {
-                return Container();
-              }
-            })
+            if (state.user != null)
+              Text('Welcome ${state.user!.name}', style: const TextStyle(fontSize: 18)),
+            if (state.error != null)
+              Text(state.error!, style: const TextStyle(color: Colors.red)),
           ],
         ),
       ),
