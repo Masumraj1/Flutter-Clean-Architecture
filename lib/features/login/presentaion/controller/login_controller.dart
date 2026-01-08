@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../domain/usecases/login_usecase.dart';
@@ -7,7 +8,8 @@ class LoginController extends GetxController {
   final LoginUseCase loginUseCase;
 
   LoginController(this.loginUseCase);
-
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   // Reactive variables
   var isLoading = false.obs;
   var user = Rxn<UserEntity>();

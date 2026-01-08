@@ -8,8 +8,7 @@ class LoginPage extends StatelessWidget {
   // Controller auto inject from binding
   final LoginController controller = Get.find();
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +18,17 @@ class LoginPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(controller: emailController, decoration: const InputDecoration(labelText: 'Email')),
+            TextField(controller: controller.emailController, decoration: const InputDecoration(labelText: 'Email')),
             const SizedBox(height: 12),
-            TextField(controller: passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Password')),
+            TextField(controller: controller.passwordController, obscureText: true, decoration: const InputDecoration(labelText: 'Password')),
             const SizedBox(height: 24),
             Obx(() => ElevatedButton(
               onPressed: controller.isLoading.value
                   ? null
                   : () {
                 controller.login(
-                  email: emailController.text,
-                  password: passwordController.text,
+                  email: controller.emailController.text,
+                  password: controller.passwordController.text,
                 );
               },
               child: controller.isLoading.value
