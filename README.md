@@ -1,13 +1,6 @@
 # flutter_clean_architect
 
-A new Flutter project.
 
-## Getting Started
-
-1. Use Flutter-Clean Architecture
-2. Use State Management -Bloc
-3. dependency injection - getit
-4. equatable
 
 * Data layer
 
@@ -26,15 +19,6 @@ A new Flutter project.
      
 
 
-
-
-
-
-
-
-
-* loos coupling
-* tight coupling
 
 
 
@@ -71,3 +55,13 @@ button press(ui) -------login method call(controller)-------loginUseCase  ------
 * Data return করে UserModel আকারে
 
 5️⃣ Model vs Entity
+* UserEntity → Domain layer (Business layer)
+* UserModel → Data layer (API / JSON conversion)
+* Repository নিশ্চিত করে, UI বা UseCase কখনো Model দেখবে না, শুধু UserEntity দেখবে
+
+1️⃣ UI → Button press
+2️⃣ Controller.login() → call useCase
+3️⃣ UseCase → repository.login()
+4️⃣ Repository → remoteDataSource.login()
+5️⃣ RemoteDataSource → fake API / network call
+6️⃣ Response = UserModel → Repository → UserEntity → UseCase → Controller → UI
