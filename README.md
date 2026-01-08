@@ -5,37 +5,45 @@
 
 - `main` → Flutter built-in state management (`setState`)
 - `dev_getx` → GetX state management
-- `dev_riverpod` → Riverpod state management
+- `dev_riverpod` → flutter_Riverpod state management
 
 প্রোজেক্টের main goal:
 > **UI থেকে শুরু করে data layer পর্যন্ত clean architecture flow বোঝা।**
 
 ---
+* UI তে user login করে
+* Controller → UseCase → Repository → RemoteDataSource
+* RemoteDataSource → fake API response (UserModel)
+* Repository → UserModel → UserEntity
+* UseCase → Controller → UI
+* UI → user.name দেখায়
+---
 
 ## 📂 Project Structure
 
 lib/
+└─core
 └─ features/
-└─ login/
-├─ data/
-│ ├─ datasources/ ← API / Fake data / DB
-│ │ └─ login_remote_datasource.dart
-│ ├─ models/ ← API response models
-│ └─ repositories/ ← Repository Implementation
-│ └─ login_repository_impl.dart
-├─ domain/
-│ ├─ entity/ ← Business layer models
-│ │ └─ user_entity.dart
-│ ├─ repositories/ ← Abstract repository (no body)
-│ └─ usecases/ ← Business logic / rules
-│ └─ login_usecase.dart
-└─ presentation/
-├─ controller/ ← Controller / StateNotifier / GetX Controller
-│ └─ login_controller.dart
-├─ ui/ ← Flutter widgets / pages
-│ └─ login_page.dart
-└─ providers/ ← Riverpod providers (if using Riverpod)
-└─ login_providers.dart
+   └─login/
+      ├─ data/
+      │ ├─ datasources/ ← API / Fake data / DB
+      │ │ └─ login_remote_datasource.dart
+      │ ├─ models/ ← API response models
+      │ └─ repositories/ ← Repository Implementation
+      │ └─ login_repository_impl.dart
+      ├─ domain/
+      │ ├─ entity/ ← Business layer models
+      │ │ └─ user_entity.dart
+      │ ├─ repositories/ ← Abstract repository (no body)
+      │ └─ usecases/ ← Business logic / rules
+      │ └─ login_usecase.dart
+      └─ presentation/
+      ├─ controller/ ← Controller / StateNotifier / GetX Controller
+      │ └─ login_controller.dart
+      ├─ ui/ ← Flutter widgets / pages
+      │ └─ login_page.dart
+      └─ providers/ ← Riverpod providers (if using Riverpod)
+      └─ login_providers.dart
 
 
 ---
@@ -71,6 +79,7 @@ lib/
   - Repository ensure করে, UI বা UseCase কখনো Model দেখবে না
 
 7. **Flow Diagram**
+
 
 UI → Controller.login() → UseCase → Repository → RemoteDataSource → UserModel → Repository → UserEntity → UseCase → Controller → UI
 
