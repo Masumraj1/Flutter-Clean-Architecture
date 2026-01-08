@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../controller/login_controller.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   final LoginController controller;
 
   const LoginPage({super.key, required this.controller});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool isLoading = false;
-
-  Future<void> _login() async {
-    setState(() => isLoading = true);
-
-    await widget.controller.login(emailController.text,passwordController.text);
-
-    setState(() => isLoading = false);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
@@ -33,25 +20,43 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-              ),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
+              decoration: const InputDecoration(labelText: 'Password'),
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: isLoading ? null : _login,
-              child: isLoading
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text('Login'),
-            ),
+            Obx(() {
+              // Reactive button
+              return ElevatedButton(
+                onPressed: controller.isLoading.value
+                    ? null
+                    : () {
+                  controller.login(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                },
+                child: controller.isLoading.value
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text('Login'),
+              );
+            }),
+            const SizedBox(height: 20),
+            Obx(() {
+              if (controller.user.value != null) {
+                return Text('Welcome ${controller.user.value!.name}',
+                    style: const TextStyle(fontSize: 18));
+              } else if (controller.error.isNotEmpty) {
+                return Text(controller.error.value,
+                    style: const TextStyle(color: Colors.red));
+              } else {
+                return Container();
+              }
+            })
           ],
         ),
       ),

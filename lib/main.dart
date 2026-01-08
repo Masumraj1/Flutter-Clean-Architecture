@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'features/login/data/datasources/login_remote_datasource.dart';
 import 'features/login/data/repositories/login_repository_impl.dart';
@@ -6,9 +7,7 @@ import 'features/login/domain/usecases/login_usecase.dart';
 import 'features/login/presentaion/controller/login_controller.dart';
 import 'features/login/presentaion/ui/login_page.dart';
 
-
 void main() {
-  // Dependency Injection (manual)
   final remoteDataSource = LoginRemoteDataSourceImpl();
   final repository = LoginRepositoryImpl(remoteDataSource);
   final useCase = LoginUseCase(repository);
@@ -24,11 +23,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Clean Login',
+      title: 'Clean Login with GetX',
       home: LoginPage(controller: controller),
     );
   }
 }
-
